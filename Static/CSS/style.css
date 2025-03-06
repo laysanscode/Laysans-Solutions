@@ -1,0 +1,253 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Belanosima:wght@600&family=Poppins:ital,wght@0,300;1,300&family=Tektur:wght@600&family=Tilt+Prism&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+
+}
+body{
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Tektur';
+  
+}
+
+.navbar {
+    transition: background-color 0.3s;
+}
+
+.navbar.scrolled {
+    background-color: #343a40; 
+}
+body h2{
+    color: #79cdec;
+    text-shadow: 2px 2px #564e4ecd;
+}
+@media only screen and (min-width: 992px) {
+    .navbar{
+       position: fixed;
+       top: 0;
+       right: 0;
+       left: 0;
+       z-index: 1030;
+    }
+    
+}
+.navbar-light .navbar-nav .nav-link{
+    color: #ffff;
+    font-weight: 600;
+    padding-left: 20px;
+}
+.navbar{
+    padding: 25px;
+}
+
+.navbar-brand{
+    padding: 2px ;
+    text-shadow: 2px 2px #A9A9A9;
+    text-transform: uppercase;
+    font-size: 28px;
+    font-family:'Tektur', cursive;
+}
+
+@media only screen and (max-width: 991px) {
+    .navbar{
+        background-color:#000;
+        padding: 0;
+    }
+    .Contact .Contact1{
+        
+       
+        width: 300px;
+    }
+
+}
+.carousel-caption{
+    top: 40%;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .carousel-caption h1{
+    font-weight: 500;
+  }
+  .navbar-light .navbar-nav .nav-link:hover{
+    color: #79cdec;
+    font-size: 18px;
+}
+.navbar-light .navbar-nav .nav-link.active{
+    color: #79cdec;
+    font-size: 18px;
+    
+}
+.parllax {
+    position: relative;
+    background: url(https://quotefancy.com/media/wallpaper/3840x2160/8045823-DO-YOUR-WORK-Wallpaper.jpg);
+    
+    min-height: 281px; 
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.parllax .info h3{
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 600;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.Reviews{
+    background-color: #f3f2f2;
+}
+
+.parllax1{
+    position: relative;
+    background: url(../Image/Guest-with-camera-gear-on-safari-in-Botswana-Pangolin-Photo-Safaris-scaled.png);
+    
+    min-height: 381px; 
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.parllax1 .about .info h3{
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 600;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.work .row .col-md-6 p{
+    
+    font-size: 19px;
+}
+
+.related{
+    background: linear-gradient(to right, #343a40, #495057);
+    border-radius: 4% 16%;
+    color: #fff;
+}
+
+.work .row .col-md-6 li{
+    font-size: 20px;
+    list-style-type: disclosure-closed;
+    list-style-position: inside;
+}
+
+
+.parllax2{
+    position: relative;
+    background: url(../Image/nft-3-1-1440x1080.jpg);
+    
+    min-height: 381px; 
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.parllax2 .Pricing .info h3{
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 600;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.parllax3{
+    position: relative;
+    background: url(../Image/morocco-tangier-photography-camera.jpg);
+    
+    min-height: 381px; 
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.parllax3 .Gallery .info h3{
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 600;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+.parllax4{
+    position: relative;
+    background: url(../Image/morocco-tangier-photography-camera.jpg);
+    
+    min-height: 381px; 
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.parllax4 .Content .info h3{
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 600;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.parllax4{
+    position: relative;
+    background: url(../Image/Guest-with-camera-gear-on-safari-in-Botswana-Pangolin-Photo-Safaris-scaled.png);
+    
+    min-height: 381px; 
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.parllax4 .Contact .info h3{
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 600;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.Contact{
+ 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Contact .Contact1{
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    width: 600px;
+}
+.card{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: 0.5s all ease-in-out;
+}
+.card:hover{
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    padding: 5px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
