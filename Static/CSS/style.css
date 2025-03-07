@@ -269,3 +269,16 @@ body h2{
     padding: 5px;
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
+
+.icon{
+    font-size: 60px;
+    color: lightseagreen
+}
+.custom-shadow {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Adjust values as needed */
+    transition: box-shadow 0.3s ease; /* Optional: Add transition for hover effect */
+}
+
+.custom-shadow:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+}
