@@ -63,6 +63,24 @@ body h2{
     }
 
 }
+.carousel-title {
+    font-size: 2.5rem; /* Default size for larger screens */
+}
+
+.carousel-text {
+    font-size: 1.25rem; /* Default size for larger screens */
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 768px) {
+    .carousel-title {
+        font-size: 1.8rem; /* Smaller size for mobile */
+    }
+
+    .carousel-text {
+        font-size: 1rem; /* Smaller size for mobile */
+    }
+}
 .carousel-caption{
     top: 40%;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
