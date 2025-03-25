@@ -96,6 +96,9 @@ body h2{
     .carousel-text {
         font-size: 1rem; /* Smaller size for mobile */
     }
+    .navbar-brand{
+      font-size: 25px;
+    }
 }
 .carousel-caption{
     top: 40%;
