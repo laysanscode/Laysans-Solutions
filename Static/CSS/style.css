@@ -108,7 +108,7 @@ body h2{
     }
     
     .phone-container p {
-      margin: 6px; /* Remove default margin */
+      /* Remove default margin */
       text-align: center; /* Center text within the paragraph */
     }
     
