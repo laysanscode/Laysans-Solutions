@@ -99,6 +99,19 @@ body h2{
     .navbar-brand{
       font-size: 25px;
     }
+    .phone-container {
+      display: flex;
+      flex-direction: column; /* Stack the phone numbers vertically */
+      align-items: center; /* Center items horizontally */
+      max-width: 450px; /* Set the maximum width */
+      margin: 0 auto; /* Center the container itself */
+    }
+    
+    .phone-container p {
+      margin: 6px; /* Remove default margin */
+      text-align: center; /* Center text within the paragraph */
+    }
+    
 }
 .carousel-caption{
     top: 40%;
