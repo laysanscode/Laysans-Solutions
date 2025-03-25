@@ -217,6 +217,15 @@ body h2{
     max-width: 100%;
     height: 100%;
 }
+
+}
+@media (min-width:551px) and (max-width:973px){
+  .phone{
+    display: none;
+  }
+  .email{
+    display: none;
+  }
 }
 
 .work .row .col-md-6 li{
