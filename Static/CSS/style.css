@@ -209,7 +209,7 @@ body h2{
     
     font-size: 18px;
 }
-@media (min-width: 825px) and (max-width: 1200px) {
+@media (min-width: 801px) and (max-width: 1200px) {
   .work .row .col-md-6 p {
     font-size: 14px;
   }
