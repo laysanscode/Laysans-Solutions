@@ -48,7 +48,7 @@ body h2{
   footer{
     font-size: 14px;
   }
-  
+
 }
 .navbar-light .navbar-nav .nav-link{
     color: #e1dfdf;
@@ -150,6 +150,7 @@ body h2{
   .carousel-text {
       font-size: 1rem;
   }
+
 }
 @media (max-width: 576px) {
   .carousel-title {
@@ -158,7 +159,11 @@ body h2{
   .carousel-text {
       font-size: 0.9rem;
   }
+  
 }
+
+  
+
 .contact-info {
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -202,9 +207,17 @@ body h2{
 }
 .work .row .col-md-6 p{
     
-    font-size: 19px;
+    font-size: 18px;
 }
-
+@media (min-width: 825px) and (max-width: 1200px) {
+  .work .row .col-md-6 p {
+    font-size: 14px;
+  }
+  .img-fluid {
+    max-width: 100%;
+    height: 100%;
+}
+}
 
 .work .row .col-md-6 li{
     font-size: 20px;
