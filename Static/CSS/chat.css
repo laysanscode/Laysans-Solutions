@@ -23,6 +23,7 @@ body {
 /* CHATBOX
 =============== */
 .chatbox {
+    z-index: 50;
     position: fixed;
     bottom: 65px;
     right: 30px;
