@@ -385,20 +385,19 @@ body h2{
 .code > * {
     position: relative; /* Ensure child elements are above the pseudo-element */
     z-index: 1; /* Bring content above the background */
-}
-.whatsapp-icon {
-    position: fixed; /* Fixes the position of the icon */
-    bottom: 20px; /* Distance from the bottom of the screen */
-    right: 20px; /* Distance from the right of the screen */
-    background-color: #25D366; /* WhatsApp green color */
-    color: white; /* Icon color */
-    border-radius: 50%; /* Circular shape */
-    padding: 15px; /* Padding around the icon */
-    font-size: 24px; /* Icon size */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Shadow for better visibility */
-    text-align: center; /* Center the icon */
-    z-index: 1000; /* Ensure it appears above other elements */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}.whatsapp-icon {
+  position: fixed;
+  bottom: 310px;
+  right: 0px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 0 14%;
+  padding: 15px;
+  font-size: 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  z-index: 1000;
+  transition: background-color 0.3s;
 }
 
 .whatsapp-icon:hover {

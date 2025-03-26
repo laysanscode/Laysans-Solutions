@@ -7,7 +7,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="./Static/CSS/style.css" rel="stylesheet">
+        <link href="./Static/CSS/chat.css" rel="stylesheet">
         <link rel="icon" href="./Static/Image/icon.jpeg" type="image/x-icon">
+
     </head>
     <body>
       
@@ -163,6 +165,30 @@ By continuously evolving and embracing new technologies, we empower our clients 
           </div>
       </section>
           <br>
+          
+    <div class="chatbox">
+      <div class="chatbox__support">
+          <div class="chatbox__header">
+              <div class="chatbox__image--header">
+                  <img src="./Static/chatbot/images (1).jpeg" style="height: 60px;width: auto; border-radius: 50%;" alt="image">
+              </div>
+              <div class="chatbox__content--header">
+                  <h4 class="chatbox__heading--header">Custom Chat Support</h4>
+                  <p class="chatbox__description--header">Hi, I am Chatbot Tesla. How can I help you?</p>
+              </div>
+          </div>
+          <div class="chatbox__messages">
+              <div id="chatbox-content"></div>
+          </div>
+          <div class="chatbox__footer">
+              <input type="text" id="chatbox-input" placeholder="Write a message...">
+              <button class="chatbox__send--footer send__button" onclick="sendMessage()"><i class="fa-solid fa-paper-plane h5"></i></button>
+          </div>
+      </div>
+      <div class="chatbox__button">
+          <button onclick="toggleChatbox()"><img src="./Static/chatbot/chatbox-icon.svg" /></button>
+      </div>
+  </div>
         <footer class="bg-dark text-center text-white">
             <!-- Grid container -->
             <div class="container p-4 pb-0">
@@ -316,6 +342,7 @@ By continuously evolving and embracing new technologies, we empower our clients 
         }
     };
 </script>    
+<script src="./Static/Js/chat.js"></script>
 </body>
 
 </html>
