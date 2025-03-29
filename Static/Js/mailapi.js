@@ -17,7 +17,7 @@ function sendEmail(event) {
     const data = { name, email, subject, message };
 
     // Send the request to the backend
-    fetch('http://127.0.0.1:8000/mail/', {  // Adjust the URL to your backend endpoint
+    fetch('https://laysans-solutions-api.onrender.com/mail/', {  // Adjust the URL to your backend endpoint
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -23,7 +23,7 @@ function sendEmail(event) {
     formData.append('message', message);
 
     // Send the request to the backend
-    fetch('http://127.0.0.1:8000/careermail/', {  // Adjust the URL to your backend endpoint
+    fetch('https://laysans-solutions-api.onrender.com/careermail/', {  // Adjust the URL to your backend endpoint
         method: 'POST',
         body: formData // Send the FormData object
     })
