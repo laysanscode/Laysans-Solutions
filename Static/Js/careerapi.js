@@ -30,7 +30,7 @@ function displayCareers(careers) {
                 <p><strong>Role:</strong> ${career.RoleName}</p>
                 <p><strong>Exp:</strong> ${career.exp} Yrs</p>
                 <p>${career.Aboutjob}</p>
-                <button type="button" class="btn btn-danger" onclick="redirectToForm(${career.id}, '${career.JobName}', '${career.RoleName}', ${career.exp}, '${career.Aboutjob}')">Apply Now</button>
+                <a type="button" class="btn btn-danger" href="careerform.html?id=${career.id}&name=${encodeURIComponent(career.JobName)}">Apply Now</a>
             </div>
         `;
         careerList.appendChild(careerItem);
