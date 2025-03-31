@@ -1,6 +1,33 @@
+// Function to create and display loading placeholders
+function createLoadingPlaceholders(count) {
+    const careerList = document.getElementById('careerList');
+    careerList.innerHTML = ''; // Clear existing content
+
+    for (let i = 0; i < count; i++) {
+        const placeholderItem = document.createElement('div');
+        placeholderItem.className = 'col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch justify-content-center mb-4';
+        placeholderItem.innerHTML = `
+            <div class="icon-box d-flex flex-column align-items-center text-center pb-3 border rounded shadow-sm" style="background-color: #f8f9fa;">
+                <div class="placeholder-icon" style="width: 60px; height: 60px; background-color: #e0e0e0; border-radius: 50%; margin-bottom: 15px;"></div>
+                <h4>
+                    <span class="placeholder-text" style="display: inline-block; width: 90%; height: 24px; background-color: #e0e0e0; border-radius: 4px;"></span>
+                </h4>
+                <p><strong>Role:</strong> <span class="placeholder-text" style="display: inline-block; width: 70%; height: 18px; background-color: #e0e0e0; border-radius: 4px;"></span></p>
+                <p><strong>Exp:</strong> <span class="placeholder-text" style="display: inline-block; width: 50%; height: 18px; background-color: #e0e0e0; border-radius: 4px;"></span></p>
+                <p><span class="placeholder-text" style="display: inline-block; width: 100%; height: 18px; background-color: #e0e0e0; border-radius: 4px;"></span></p>
+                <a type="button" class="btn btn-danger" style="pointer-events: none; opacity: 0.5; width: 100%;">Apply Now</a>
+            </div>
+        `;
+        careerList.appendChild(placeholderItem);
+    }
+}
+
+// Function to fetch careers
 async function fetchCareers() {
+    createLoadingPlaceholders(6); // Show 6 placeholders while loading
+
     try {
-        const response = await fetch('https://laysans-solutions-api.onrender.com/career/'); // Adjust the URL to your API endpoint
+        const response = await fetch('https://laysans-solutions-api.onrender.com/career/');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -35,24 +62,6 @@ function displayCareers(careers) {
         `;
         careerList.appendChild(careerItem);
     });
-}
-
-// Function to redirect to the career form and store data
-function redirectToForm(id, jobName, roleName, exp, aboutJob) {
-    console.log('RedirectToForm called with:', id, jobName, roleName, exp, aboutJob);
-    
-    const careerData = {
-        id: id,
-        jobName: jobName,
-        roleName: roleName,
-        exp: exp,
-        aboutJob: aboutJob
-    };
-    localStorage.setItem('careerData', JSON.stringify(careerData));
-
-    alert(`Redirecting to career form with ID: ${id}`); // Debugging alert
-
-    window.location.href = `careerform.html?id=${id}&name=${encodeURIComponent(jobName)}`;
 }
 
 // Fetch careers when the page loads

@@ -1,6 +1,34 @@
+// Function to create and display loading placeholders for clients
+function createClientLoadingPlaceholders(count) {
+    const clientList = document.getElementById('clientList');
+    clientList.innerHTML = ''; // Clear existing content
+
+    for (let i = 0; i < count; i++) {
+        const placeholderItem = document.createElement('div');
+        placeholderItem.className = 'col-lg-6 col-md-4 col-sm-12 portfolio-item filter-web mb-4';
+        placeholderItem.innerHTML = `
+            <div class="portfolio-wrap">
+                <div class="placeholder-icon" style="width: 100%; height: 300px; background-color: #e0e0e0; border-radius: 4px; margin-bottom: 15px;"></div>
+                <div class="portfolio-info text-center">
+                    <h4>
+                        <span class="placeholder-text" style="display: inline-block; width: 80%; height: 24px; background-color: #e0e0e0; border-radius: 4px;"></span>
+                    </h4>
+                    <div class="portfolio-links">
+                        <span class="placeholder-text" style="display: inline-block; width: 40%; height: 18px; background-color: #e0e0e0; border-radius: 4px;"></span>
+                    </div>
+                </div>
+            </div>
+        `;
+        clientList.appendChild(placeholderItem);
+    }
+}
+
+// Function to fetch clients
 async function fetchClients() {
+    createClientLoadingPlaceholders(6); // Show 6 placeholders while loading
+
     try {
-        const response = await fetch('https://laysans-solutions-api.onrender.com/client/'); // Adjust the URL to your API endpoint
+        const response = await fetch('https://laysans-solutions-api.onrender.com/client/');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
