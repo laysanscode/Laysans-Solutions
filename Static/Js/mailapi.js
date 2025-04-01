@@ -1,11 +1,20 @@
 function sendEmail(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); // Prevent default form submission
 
-    // Get form values
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const subject = document.getElementById('subject').value.trim();
-    const message = document.querySelector('textarea[name="message"]').value.trim();
+    // Get form elements
+    const form = document.getElementById('contactForm'); // Ensure your form has this ID
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const subjectInput = document.getElementById('subject');
+    const messageInput = document.querySelector('textarea[name="message"]');
+    const submitButton = document.getElementById('submitButton');
+    const responseMessage = document.getElementById('responseMessage');
+
+    // Get values
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const subject = subjectInput.value.trim();
+    const message = messageInput.value.trim();
 
     // Basic validation
     if (!name || !email || !subject || !message) {
@@ -13,11 +22,15 @@ function sendEmail(event) {
         return;
     }
 
-    // Prepare the data to be sent
+    // Disable submit button & show loading state
+    submitButton.disabled = true;
+    submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span> Sending...`;
+
+    // Prepare data
     const data = { name, email, subject, message };
 
-    // Send the request to the backend
-    fetch('https://laysans-solutions-api.onrender.com/mail/', {  // Adjust the URL to your backend endpoint
+    // Send request
+    fetch('https://laysans-solutions-api.onrender.com/mail/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -26,38 +39,45 @@ function sendEmail(event) {
         body: JSON.stringify(data)
     })
     .then(response => {
-        const responseMessage = document.getElementById('responseMessage');
         if (!response.ok) {
-            // If the response is not ok, throw an error
             throw new Error('Network response was not ok: ' + response.statusText);
         }
         return response.json();
     })
     .then(data => {
-        const responseMessage = document.getElementById('responseMessage');
-        responseMessage.className = 'alert alert-success text-center justify-content-center p-3'; // Set success class
-        responseMessage.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${data.message}`;  // Add success icon
-        responseMessage.style.display = 'block';  // Show the response message
+        // Show success message
+        responseMessage.className = 'alert alert-success text-center p-3';
+        responseMessage.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${data.message || "Your message has been sent successfully!"}`;
+        responseMessage.style.display = 'block';
 
-        // Hide the message after 10 seconds
+        // Reset form after 2 seconds
+        setTimeout(() => {
+            form.reset();
+            responseMessage.style.display = 'none';
+        }, 2000);
+    })
+    .catch(error => {
+        // Show error message
+        console.error('Error:', error);
+        responseMessage.className = 'alert alert-danger text-center p-3';
+        responseMessage.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> An error occurred: ${error.message}`;
+        responseMessage.style.display = 'block';
+
+        // Hide message after 10 seconds
         setTimeout(() => {
             responseMessage.style.display = 'none';
         }, 10000);
     })
-    .catch(error => {
-        console.error('Error:', error);
-        const responseMessage = document.getElementById('responseMessage');
-        responseMessage.className = 'alert alert-danger text-center justify-content-center p-3'; // Set error class
-        responseMessage.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> An error occurred: ${error.message}`; // Add error icon
-        responseMessage.style.display = 'block';  // Show the error message
-
-        // Hide the message after 10 seconds
+    .finally(() => {
+        // Re-enable submit button after 2 seconds
         setTimeout(() => {
-            responseMessage.style.display = 'none';
-        }, 10000);
+            submitButton.disabled = false;
+            submitButton.innerHTML = "Send Message";
+        }, 2000);
     });
 }
 
+// Function to get CSRF token (if needed)
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
