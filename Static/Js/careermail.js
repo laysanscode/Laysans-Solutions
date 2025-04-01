@@ -1,20 +1,34 @@
 function sendEmail(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); // Prevent default form submission
 
-    // Get form values
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const jobName = document.getElementById('jobNameInput').value.trim(); // Get the job name from the input
-    const resume = document.getElementById('resume').files[0]; // Get the file object
-    const message = document.getElementById('message').value.trim(); // Get the message from the textarea
+    // Get form elements
+    const form = document.getElementById('careerForm'); // Ensure form has this ID
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const jobNameInput = document.getElementById('jobNameInput');
+    const resumeInput = document.getElementById('resume');
+    const messageInput = document.getElementById('message');
+    const submitButton = document.getElementById('submitButton');
+    const responseMessage = document.getElementById('responseMessage');
 
-    // Basic validation
+    // Get values
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const jobName = jobNameInput.value.trim();
+    const resume = resumeInput.files[0];
+    const message = messageInput.value.trim();
+
+    // Validation check
     if (!name || !email || !jobName || !resume || !message) {
         alert("All fields are required.");
         return;
     }
 
-    // Prepare the data to be sent
+    // Disable button & show loading state
+    submitButton.disabled = true;
+    submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status"></span> Submitting...`;
+
+    // Prepare the data
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', email);
@@ -22,10 +36,10 @@ function sendEmail(event) {
     formData.append('resume', resume);
     formData.append('message', message);
 
-    // Send the request to the backend
-    fetch('https://laysans-solutions-api.onrender.com/careermail/', {  // Adjust the URL to your backend endpoint
+    // Send request to backend
+    fetch('https://laysans-solutions-api.onrender.com/careermail/', {
         method: 'POST',
-        body: formData // Send the FormData object
+        body: formData
     })
     .then(response => {
         if (!response.ok) {
@@ -34,19 +48,32 @@ function sendEmail(event) {
         return response.json();
     })
     .then(data => {
-        const responseMessage = document.getElementById('responseMessage');
-        responseMessage.innerText = data.message;  // Assuming your backend returns a message
-        responseMessage.style.display = 'block';  // Show the response message
+        // Show success message
+        responseMessage.innerText = data.message || "Your application has been submitted successfully!";
+        responseMessage.className = "alert alert-success";
+        responseMessage.style.display = 'block';
 
-        // Hide the message after 10 seconds
+        // Reset form fields after 2 seconds
         setTimeout(() => {
+            form.reset(); // Reset text inputs
+
+            // Manually clear the file input (since form.reset() doesn't clear file inputs)
+            resumeInput.value = '';
             responseMessage.style.display = 'none';
-        }, 10000);
+        }, 2000);
     })
     .catch(error => {
+        // Show error message
         console.error('Error:', error);
-        const responseMessage = document.getElementById('responseMessage');
         responseMessage.innerText = 'An error occurred: ' + error.message;
-        responseMessage.style.display = 'block';  // Show the error message
+        responseMessage.className = "alert alert-danger";
+        responseMessage.style.display = 'block';
+    })
+    .finally(() => {
+        // Re-enable submit button after response
+        setTimeout(() => {
+            submitButton.disabled = false;
+            submitButton.innerHTML = "Submit Application";
+        }, 2000);
     });
 }
