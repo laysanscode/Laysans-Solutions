@@ -58,6 +58,21 @@ body h2{
 .navbar{
     padding: 25px;
 }
+.placeholder-text {
+  display: inline-block;
+  height: 18px;
+  min-width: 30%; /* Minimum width for shorter text */
+  max-width: 100%; /* Ensures it doesn't overflow */
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
 
 .navbar-brand{
     padding: 2px ;
