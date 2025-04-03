@@ -1092,32 +1092,33 @@
                 </div>
                 <div class="card-body">
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate, ex ac venenatis mollis, diam nibh finibus leo</p>
-                    <form>
+                    <form onsubmit="sendcareer(event); return false;">
                         <div class="form-group">
-                            <label class="form-label" for="email">JobName:</label>
-                            <input type="text" class="form-control" id="email1">
+                            <label class="form-label" for="JobName">JobName:</label>
+                            <input type="text" class="form-control" id="JobName">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="email">RoleName:</label>
-                            <input type="text" class="form-control" id="email1">
+                            <label class="form-label" for="RoleName">RoleName:</label>
+                            <input type="text" class="form-control" id="RoleName">
                         </div>
                       
                         <div class="form-group">
-                            <label class="form-label" for="pwd">Iconclassname:</label>
-                            <input type="text" class="form-control" id="pwd">
+                            <label class="form-label" for="Iconclassname">Iconclassname:</label>
+                            <input type="text" class="form-control" id="Iconclassname">
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="pwd">Aboutjob:</label>
+                            <label class="form-label" for="Aboutjob">Aboutjob:</label>
                             <textarea class="form-control" name="message" rows="8"  required=""></textarea>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="pwd">exp:</label>
-                            <input type="text" class="form-control" id="pwd">
+                            <label class="form-label" for="exp">exp:</label>
+                            <input type="text" class="form-control" id="exp">
                         </div>
                         
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
                         <button type="reset" class="btn btn-danger">cancel</button>
                     </form>
+                    <div id="responseMessage" style="display: none; position: fixed; right: 20px; bottom: 80px; z-index: 1050; width: 300px;">
                 </div>
             </div>
      
@@ -1351,6 +1352,7 @@
     
     <!-- Form Wizard Script -->
     <script src="../../assets/js/plugins/form-wizard.js"></script>
+    <script src="../../assets/js/Careerapi.js"></script>
     
     <!-- AOS Animation Plugin-->
     

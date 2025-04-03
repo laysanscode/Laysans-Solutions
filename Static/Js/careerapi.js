@@ -47,7 +47,7 @@ function displayCareers(careers) {
         careerItem.className = 'col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch custom-shadow justify-content-center';
         careerItem.innerHTML = `
             <div class="icon-box d-flex flex-column align-items-center text-center pb-3">
-                <div class="icon"><i class="fa-solid fa-code"></i></div>
+                <div class="icon"><i class="${career.Iconclassname}"></i></div> 
                 <h4>
                     <a href="careerform.html?id=${career.id}&name=${encodeURIComponent(career.JobName)}">
                         ${career.JobName}
