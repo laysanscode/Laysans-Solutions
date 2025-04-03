@@ -94,3 +94,117 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+function createLoadingPlaceholders(count) {
+    const tableBody = document.getElementById('jobTableBody');
+    tableBody.innerHTML = ''; // Clear existing content
+
+    for (let i = 0; i < count; i++) {
+        const placeholderRow = document.createElement('tr');
+        placeholderRow.innerHTML = `
+            <td class="placeholder" style="width: 150px;"></td>
+            <td class="placeholder" style="width: 100px;"></td>
+            <td class="placeholder" style="width: 150px;"></td>
+            <td class="placeholder" style="width: 50px;"></td>
+            <td>
+                <button class="btn btn-warning btn-sm" disabled>Update</button>
+                <button class="btn btn-danger btn-sm" disabled>Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(placeholderRow);
+    }
+}
+
+// Function to fetch job data (GET)
+async function fetchJobs() {
+    createLoadingPlaceholders(6); // Show 6 placeholders while loading
+
+    try {
+        const response = await fetch('https://laysans-solutions-api.onrender.com/career/');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const jobs = await response.json();
+        displayJobs(jobs);
+    } catch (error) {
+        console.error('Error fetching jobs:', error);
+    }
+}
+
+// Function to display jobs in the HTML table
+function displayJobs(jobs) {
+    const tableBody = document.getElementById('jobTableBody');
+    tableBody.innerHTML = ''; // Clear existing content
+
+    jobs.forEach(job => {
+        const jobRow = document.createElement('tr');
+        jobRow.innerHTML = `
+            <td>${job.JobName}</td>
+            <td>${job.RoleName}</td>
+            <td>${job.Iconclassname}</td>
+            <td>${job.exp}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="openUpdateModal(${job.id})">Update</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteJob(${job.id})">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(jobRow);
+    });
+}
+
+// Function to update a job (PUT)
+async function updateJob(id) {
+    const updatedJob = {
+        // Include the updated job data here
+        JobName: 'Updated Job Name', // Example data
+        RoleName: 'Updated Role Name',
+        Iconclassname: 'updated-icon-class',
+        exp: 5 // Example data
+    };
+
+    try {
+        const response = await fetch(`https://laysans-solutions-api.onrender.com/career/${id}/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedJob),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update job');
+        }
+
+        const result = await response.json();
+        console.log('Job updated:', result);
+        fetchJobs(); // Refresh the list after update
+    } catch (error) {
+        console.error('Error updating job:', error);
+    }
+}
+
+// Function to delete a job (DELETE)
+async function deleteJob(id) {
+    try {
+        const response = await fetch(`https://laysans-solutions-api.onrender.com/career/${id}/`, {
+            method: 'DELETE',
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to delete job');
+        }
+
+        console.log('Job deleted:', id);
+        fetchJobs(); // Refresh the list after deletion
+    } catch (error) {
+        console.error('Error deleting job:', error);
+    }
+}
+
+// Function to open a modal for updating a job (you need to implement this)
+function openUpdateModal(id) {
+    // Logic to open a modal and populate it with the job data for editing
+    console.log('Open update modal for job ID:', id);
+}
+
+// Fetch jobs when the page loads
+window.onload = fetchJobs;
