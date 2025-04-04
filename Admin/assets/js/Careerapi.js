@@ -143,7 +143,7 @@ function displayJobs(jobs) {
             <td>${job.Iconclassname}</td>
             <td>${job.exp}</td>
             <td>
-                <button class="btn btn-warning btn-sm" onclick="openUpdateModal(${job.id})">Update</button>
+                <a class="btn btn-warning btn-sm" href="../form/Careersupdateform.html?id=${job.id}/">Update</a>
                 <button class="btn btn-danger btn-sm" onclick="deleteJob(${job.id})">Delete</button>
             </td>
         `;
@@ -152,35 +152,45 @@ function displayJobs(jobs) {
 }
 
 // Function to update a job (PUT)
-async function updateJob(id) {
-    const updatedJob = {
-        // Include the updated job data here
-        JobName: 'Updated Job Name', // Example data
-        RoleName: 'Updated Role Name',
-        Iconclassname: 'updated-icon-class',
-        exp: 5 // Example data
-    };
+// Function to get URL parameters
+function getUrlParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+// Function to fetch job data for editing
+async function fetchJobForUpdate() {
+    const jobId = getUrlParameter('id'); // Get the job ID from the URL
+    if (!jobId) {
+        console.error('No job ID provided in the URL');
+        return;
+    }
 
     try {
-        const response = await fetch(`https://laysans-solutions-api.onrender.com/career/${id}/`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedJob),
-        });
-
+        const response = await fetch(`https://laysans-solutions-api.onrender.com/career/${jobId}/`);
         if (!response.ok) {
-            throw new Error('Failed to update job');
+            throw new Error('Network response was not ok');
         }
-
-        const result = await response.json();
-        console.log('Job updated:', result);
-        fetchJobs(); // Refresh the list after update
+        const job = await response.json();
+        populateUpdateForm(job); // Populate the form with job data
     } catch (error) {
-        console.error('Error updating job:', error);
+        console.error('Error fetching job data:', error);
     }
 }
+
+// Function to populate the update form with job data
+function populateUpdateForm(job) {
+    document.getElementById('jobId').value = job.id; // Set the job ID
+    document.getElementById('JobName').value = job.JobName;
+    document.getElementById('RoleName').value = job.RoleName;
+    document.getElementById('Iconclassname').value = job.Iconclassname;
+    document.getElementById('exp').value = job.exp;
+    document.getElementById('Aboutjob').value = job.Aboutjob;
+}
+
+// Call the fetch function when the page loads
+window.onload = fetchJobForUpdate;
+
 
 // Function to delete a job (DELETE)
 async function deleteJob(id) {
@@ -194,10 +204,24 @@ async function deleteJob(id) {
         }
 
         console.log('Job deleted:', id);
-        fetchJobs(); // Refresh the list after deletion
+        showResponseMessage("Career deleted successfully!", "success"); // Show success message
+        fetchJobs(); // Refresh the list after deletion (make sure to implement fetchJobs)
     } catch (error) {
         console.error('Error deleting job:', error);
+        showResponseMessage(`${error.message}`, "danger"); // Show error message
     }
+}
+// Function to show response messages
+function showResponseMessage(message, type) {
+    const responseMessage = document.getElementById('responseMessage');
+    responseMessage.className = `alert alert-${type} text-center p-3`; // Set alert class based on type
+    responseMessage.innerHTML = `<i class="fa-solid fa-circle-${type === 'success' ? 'check' : 'exclamation'}"></i> ${message}`;
+    responseMessage.style.display = 'block';
+
+    // Hide message after 5 seconds
+    setTimeout(() => {
+        responseMessage.style.display = 'none';
+    }, 5000);
 }
 
 // Function to open a modal for updating a job (you need to implement this)

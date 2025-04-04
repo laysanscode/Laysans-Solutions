@@ -1,3 +1,4 @@
+// Function to send client data
 function sendclient(event) {
     event.preventDefault(); // Prevent default form submission
 
@@ -13,7 +14,7 @@ function sendclient(event) {
     const Link = Linkinput.value.trim();
    
     // Basic validation
-    if (!Productname || !Link ) {
+    if (!Productname || !Link) {
         alert("All fields are required.");
         return;
     }
@@ -88,24 +89,7 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-  // Function to create loading placeholders
-  function createLoadingPlaceholders(count) {
-    const tableBody = document.getElementById('clientTableBody');
-    tableBody.innerHTML = ''; // Clear existing content
 
-    for (let i = 0; i < count; i++) {
-        const placeholderRow = document.createElement('tr');
-        placeholderRow.innerHTML = `
-            <td class="placeholder" style="width: 150px;"></td>
-            <td class="placeholder" style="width: 200px;"></td>
-            <td>
-                <button class="btn btn-warning btn-sm" disabled>Update</button>
-                <button class="btn btn-danger btn-sm" disabled>Delete</button>
-            </td>
-        `;
-        tableBody.appendChild(placeholderRow);
-    }
-}
 // Function to create loading placeholders
 function createLoadingPlaceholders(count) {
     const tableBody = document.getElementById('clientTableBody');
@@ -159,6 +143,7 @@ function displayClients(clients) {
         tableBody.appendChild(clientRow);
     });
 }
+
 // Function to update a client (PUT)
 async function updateClient(id) {
     const updatedClient = {
@@ -200,10 +185,25 @@ async function deleteClient(id) {
         }
 
         console.log('Client deleted:', id);
+        showResponseMessage("Client deleted successfully!", "success"); // Show success message
         fetchClients(); // Refresh the list after deletion
     } catch (error) {
         console.error('Error deleting client:', error);
+        showResponseMessage(`An error occurred: ${error.message}`, "danger"); // Show error message
     }
+}
+
+// Function to show response messages
+function showResponseMessage(message, type) {
+    const responseMessage = document.getElementById('responseMessage');
+    responseMessage.className = `alert alert-${type} text-center p-3`; // Set alert class based on type
+    responseMessage.innerHTML = `<i class="fa-solid fa-circle-${type === 'success' ? 'check' : 'exclamation'}"></i> ${message}`;
+    responseMessage.style.display = 'block';
+
+    // Hide message after 5 seconds
+    setTimeout(() => {
+        responseMessage.style.display = 'none';
+    }, 5000);
 }
 
 // Function to open a modal for updating a client
@@ -214,4 +214,5 @@ function openUpdateModal(id, productName, productLink) {
     $('#updateModal').modal('show'); // Show the modal
 }
 
-// Event
+// Fetch clients when the page loads
+document.addEventListener('DOMContentLoaded', fetchClients);
