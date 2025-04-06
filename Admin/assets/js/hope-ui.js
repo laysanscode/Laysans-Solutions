@@ -512,22 +512,27 @@ window.addEventListener('load', function () {
   })
 
 })();
+
 document.addEventListener('DOMContentLoaded', () => {
   // Other initialization code...
 
   // Check if the current path starts with '/admin'
   const currentPath = window.location.pathname;
+  console.log('Current Path:', currentPath); // Debugging line
 
   // Check for the refresh token in localStorage
   const refreshToken = localStorage.getItem('refreshToken');
+  console.log('Refresh Token:', refreshToken); // Debugging line
 
   // Adjust the path check to use startsWith
   if (currentPath.startsWith('/admin')) {
       if (refreshToken) {
           // If there is a refresh token, redirect to the dashboard
+          console.log('Redirecting to dashboard...'); // Debugging line
           window.location.href = '/Admin/dashboard/index.html';
       } else {
           // If there is no refresh token, redirect to the login page
+          console.log('Redirecting to login...'); // Debugging line
           window.location.href = '/Admin/dashboard/auth/Login.html';
       }
   }
