@@ -512,3 +512,23 @@ window.addEventListener('load', function () {
   })
 
 })();
+document.addEventListener('DOMContentLoaded', () => {
+  // Other initialization code...
+
+  // Check if the current path starts with '/admin'
+  const currentPath = window.location.pathname;
+
+  // Check for the refresh token in localStorage
+  const refreshToken = localStorage.getItem('refreshToken');
+
+  // Adjust the path check to use startsWith
+  if (currentPath.startsWith('/admin')) {
+      if (refreshToken) {
+          // If there is a refresh token, redirect to the dashboard
+          window.location.href = '/Admin/dashboard/index.html';
+      } else {
+          // If there is no refresh token, redirect to the login page
+          window.location.href = '/Admin/dashboard/auth/Login.html';
+      }
+  }
+});
