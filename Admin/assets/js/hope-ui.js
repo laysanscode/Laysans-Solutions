@@ -541,12 +541,14 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault(); // Prevent the default anchor behavior
 
       try {
-          const response = await fetch('https://laysans-solutions-api.onrender.com/Login/', {
-              method: 'DELETE',
+          const refreshToken = localStorage.getItem('refreshToken'); // Get the refresh token from local storage
+
+          const response = await fetch('https://laysans-solutions-api.onrender.com/Login/', { // Update the URL to the correct logout endpoint
+              method: 'DELETE', // Change to POST if your API expects a POST request
               headers: {
                   'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` // Include the access token if required
-              }
+              },
+              body: JSON.stringify({ refresh_token: refreshToken }) // Send the refresh token in the body
           });
 
           if (response.ok) {
@@ -561,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
               showNotification(data.error || 'Logout failed. Please try again.', 'error');
           }
       } catch (error) {
-         
+        // Log the error for debugging
           showNotification('An unexpected error occurred. Please try again.', 'error');
       }
   });
