@@ -533,7 +533,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
 });
-
 document.addEventListener('DOMContentLoaded', () => {
   const logoutLink = document.getElementById('logoutLink');
 
@@ -541,11 +540,11 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault(); // Prevent the default anchor behavior
 
       try {
-          const response = await fetch('https://laysans-solutions-api.onrender.com/Login/', {
+          const response = await fetch('https://laysans-solutions-api.onrender.com/logout', { // Update the URL if necessary
               method: 'DELETE',
               headers: {
                   'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // Include the access token if required
+                  'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` // Include the access token if required
               }
           });
 
