@@ -533,3 +533,57 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const logoutLink = document.getElementById('logoutLink');
+
+  logoutLink.addEventListener('click', async (event) => {
+      event.preventDefault(); // Prevent the default anchor behavior
+
+      try {
+          const response = await fetch('https://laysans-solutions-api.onrender.com/Login/', {
+              method: 'DELETE',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // Include the access token if required
+              }
+          });
+
+          if (response.ok) {
+              // Optionally, clear tokens from localStorage
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+
+              // Redirect to the login page or home page
+              window.location.href = '../../dashboard/auth/sign-in.html';
+          } else {
+              const data = await response.json();
+              showNotification(data.error || 'Logout failed. Please try again.', 'error');
+          }
+      } catch (error) {
+          console.error('Error during logout:', error);
+          showNotification('An unexpected error occurred. Please try again.', 'error');
+      }
+  });
+
+  function showNotification(message, type) {
+      // Create a notification element
+      const notification = document.createElement('div');
+      notification.className = `alert alert-${type} alert-dismissible fade show`;
+      notification.role = 'alert';
+      notification.innerHTML = `
+          ${message}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      `;
+
+      // Append the notification to the body or a specific container
+      document.body.appendChild(notification);
+
+      // Automatically remove the notification after 3 seconds
+      setTimeout(() => {
+          $(notification).alert('close'); // Use jQuery to close the alert
+      }, 3000);
+  }
+});
