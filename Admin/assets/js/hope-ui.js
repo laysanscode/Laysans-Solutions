@@ -520,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Check for the refresh token in localStorage
   const refreshToken = localStorage.getItem('refreshToken');
-  console.log('Refresh Token:', refreshToken); // Log the refresh token
+   // Log the refresh token
 
   // Adjust the path check to use startsWith
   if (currentPath.startsWith('/admin')) {
@@ -533,6 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
 });
+
 document.addEventListener('DOMContentLoaded', () => {
   const logoutLink = document.getElementById('logoutLink');
 
@@ -540,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault(); // Prevent the default anchor behavior
 
       try {
-          const response = await fetch('https://laysans-solutions-api.onrender.com/logout', { // Update the URL if necessary
+          const response = await fetch('https://laysans-solutions-api.onrender.com/Login/', {
               method: 'DELETE',
               headers: {
                   'Content-Type': 'application/json',
@@ -560,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
               showNotification(data.error || 'Logout failed. Please try again.', 'error');
           }
       } catch (error) {
-          console.error('Error during logout:', error);
+         
           showNotification('An unexpected error occurred. Please try again.', 'error');
       }
   });
