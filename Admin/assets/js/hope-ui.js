@@ -589,8 +589,8 @@ function loadUserNavbar() {
     return response.json();
   })
   .then(data => {
-    document.getElementById('userName').textContent = data.name || 'User';
-    document.getElementById('userRole').textContent = data.role || 'Administrator';
+    document.getElementById('userName').textContent = data.Name || 'User';
+    document.getElementById('userRole').textContent = data.Role || 'Administrator';
   })
   .catch(error => {
     console.error('Navbar user load failed:', error.message);
