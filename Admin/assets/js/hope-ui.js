@@ -532,60 +532,40 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.href = '/Admin/dashboard/auth/Login.html';
       }
   }
+});document.getElementById('logoutLink').addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent the default anchor behavior
+  userLogout(); // Call the logout function
 });
+function userLogout() {
+  const refreshToken = localStorage.getItem('refreshToken');
 
-document.addEventListener('DOMContentLoaded', () => {
-  const logoutLink = document.getElementById('logoutLink');
-
-  logoutLink.addEventListener('click', async (event) => {
-      event.preventDefault(); // Prevent the default anchor behavior
-
-      try {
-          const refreshToken = localStorage.getItem('refreshToken'); // Get the refresh token from local storage
-
-          const response = await fetch('https://laysans-solutions-api.onrender.com/Login/', { // Update the URL to the correct logout endpoint
-              method: 'DELETE', // Change to POST if your API expects a POST request
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ refresh_token: refreshToken }) // Send the refresh token in the body
-          });
-
-          if (response.ok) {
-              // Optionally, clear tokens from localStorage
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-
-              // Redirect to the login page or home page
-              window.location.href = '../../dashboard/auth/sign-in.html';
-          } else {
-              const data = await response.json();
-              showNotification(data.error || 'Logout failed. Please try again.', 'error');
-          }
-      } catch (error) {
-        // Log the error for debugging
-          showNotification('An unexpected error occurred. Please try again.', 'error');
-      }
-  });
-
-  function showNotification(message, type) {
-      // Create a notification element
-      const notification = document.createElement('div');
-      notification.className = `alert alert-${type} alert-dismissible fade show`;
-      notification.role = 'alert';
-      notification.innerHTML = `
-          ${message}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-          </button>
-      `;
-
-      // Append the notification to the body or a specific container
-      document.body.appendChild(notification);
-
-      // Automatically remove the notification after 3 seconds
-      setTimeout(() => {
-          $(notification).alert('close'); // Use jQuery to close the alert
-      }, 3000);
+  if (!refreshToken) {
+    console.error('Refresh token not found. User may not be logged in.');
+    return;
   }
-});
+
+  // Send refresh token in the query parameter
+  fetch(`https://laysans-solutions-api.onrender.com/logout/?refresh=${encodeURIComponent(refreshToken)}`, {
+    method: 'DELETE'
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Logout failed: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Logout successful:', data);
+
+      // Remove tokens from local storage
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+
+      // Redirect to login page
+      window.location.href = '/Admin/dashboard/auth/Login.html';
+    })
+    .catch(error => {
+      console.error('Error during logout:', error.message);
+    });
+}
+
