@@ -590,7 +590,7 @@ function loadUserNavbar() {
   })
   .then(data => {
     document.getElementById('userName').textContent = data.Name || 'User';
-    document.getElementById('userRole').textContent = data.Role || 'Administrator';
+    document.getElementById('userRole').textContent = data.Role || 'Admin';
   })
   .catch(error => {
     console.error('Navbar user load failed:', error.message);
