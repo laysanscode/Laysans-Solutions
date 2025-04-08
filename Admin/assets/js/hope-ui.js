@@ -569,16 +569,33 @@ function userLogout() {
     });
 }
 
-function userLogin() {
+function loadUserNavbar() {
   const refreshToken = localStorage.getItem('refreshToken');
 
   if (!refreshToken) {
-      // Token not found, redirect to login
-      window.location.href = '/Admin/dashboard/auth/Login.html';
-      return;
+    window.location.href = '/Admin/dashboard/auth/Login.html';
+    return;
   }
 
-  // Token exists, allow access (do nothing)
+  // Send the token as a query parameter
+  fetch(`https://laysans-solutions-api.onrender.com/Login/?refresh=${encodeURIComponent(refreshToken)}`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    }
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Failed to fetch user data');
+    return response.json();
+  })
+  .then(data => {
+    document.getElementById('userName').textContent = data.name || 'User';
+    document.getElementById('userRole').textContent = data.role || 'Administrator';
+  })
+  .catch(error => {
+    console.error('Navbar user load failed:', error.message);
+   
+  });
 }
 
-userLogin();
+document.addEventListener('DOMContentLoaded', loadUserNavbar);
