@@ -3,3 +3,4 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelector("body").classList.add("spinner-grow");
     }, 10)
   });
+
