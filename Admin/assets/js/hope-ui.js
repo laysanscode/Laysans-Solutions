@@ -573,7 +573,7 @@ function loadUserNavbar() {
   const refreshToken = localStorage.getItem('refreshToken');
 
   if (!refreshToken) {
-    window.location.href = '/Admin/dashboard/auth/Login.html';
+    window.location.href = 'https://www.laysans.com/Admin/dashboard/auth/Login.html';
     return;
   }
 
