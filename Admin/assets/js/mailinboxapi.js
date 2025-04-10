@@ -27,8 +27,10 @@ function createLoadingPlaceholders(count) {
             <td class="placeholder" style="width: 150px; background-color: #f0f0f0;">&nbsp;</td>
             <td class="placeholder" style="width: 50px; background-color: #f0f0f0;">&nbsp;</td>
             <td>
-                <button class="btn btn-warning btn-sm" disabled>Update</button>
-                <button class="btn btn-danger btn-sm" disabled>Delete</button>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal">View</button>
+            </td>
+            <td>
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal">Reply</button>
             </td>
         `;
         tableBody.appendChild(placeholderRow);
