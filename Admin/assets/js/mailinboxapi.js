@@ -67,23 +67,111 @@ function displaymail(mail) {
         return;
     }
 
-    mail.forEach(email => {
+    mail.forEach((email, index) => {
+        const modalId = `mailModal${index}`;
+        const replyModalId = `replyModal${index}`;
+        const safeBody = email.body.replace(/"/g, '&quot;');
+
         const mailRow = document.createElement('tr');
         mailRow.innerHTML = `
             <td>${email.subject}</td>
-            <td>${email["from"]}</td> <!-- Using bracket notation for reserved word -->
+            <td>${email["from"]}</td>
             <td>${email.date}</td>
-            <td>${email.body}</td>
             <td>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#${modalId}">View</button>
+            </td>
+            <td>
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#${replyModalId}">Reply</button>
             </td>
         `;
+
+        // Modal to view mail content
+        const viewModal = `
+            <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="${modalId}Label" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="${modalId}Label">${email.subject}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <iframe style="border: none; width: 100%; height: 500px;" srcdoc="${safeBody}"></iframe>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Reply modal
+        const replyModal = `
+            <div class="modal fade" id="${replyModalId}" tabindex="-1" aria-labelledby="${replyModalId}Label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form onsubmit="return sendReply(event, '${email["from"]}', \`${email.subject}\`, \`${safeBody}\`)">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="${replyModalId}Label">Reply to ${email["from"]}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <textarea class="form-control" name="replyMessage" placeholder="Your message..." rows="6" required></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Send Reply</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        `;
+
         tableBody.appendChild(mailRow);
+        document.body.insertAdjacentHTML('beforeend', viewModal + replyModal);
     });
 }
 
-// Optionally implement this if DELETE is supported
 
-// Call fetchmail on page load
+async function sendReply(event, to, subject, originalBody) {
+    event.preventDefault();
+    const form = event.target;
+    const replyText = form.replyMessage.value.trim();
+
+    if (!replyText) return;
+
+    try {
+        const response = await fetch('https://laysans-solutions-api.onrender.com/replymail/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')  // Only needed if using Django CSRF protection
+            },
+            body: JSON.stringify({
+                to: to,
+                subject: subject,
+                reply: replyText,
+                original_body: originalBody
+            })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert('Reply sent successfully!');
+            form.closest('.modal').querySelector('.btn-close').click();
+        } else {
+            alert(`Failed to send reply: ${result.error}`);
+        }
+    } catch (error) {
+        console.error('Error sending reply:', error);
+        alert('An error occurred while sending the reply.');
+    }
+
+    return false;
+}
 document.addEventListener('DOMContentLoaded', () => {
     fetchmail();
+    sendReply();
 });
