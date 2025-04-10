@@ -168,7 +168,7 @@ async function sendReply(event, to, subject, originalBody, textareaElement) {
     submitBtn.disabled = true;
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/replymail/', {
+        const response = await fetch('https://laysans-solutions-api.onrender.com/replymail/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
