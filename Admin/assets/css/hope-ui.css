@@ -11,6 +11,14 @@
 :focus {
   outline: none;
 }
+@font-face {
+  font-family: 'GDSherpa-Bold';
+  src: url('fonts/GDSherpa-Bold.woff2') format('woff2'),
+       url('fonts/GDSherpa-Bold.woff') format('woff'),
+       url('fonts/GDSherpa-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
 
 hr {
   margin: 1rem 0;
