@@ -106,9 +106,13 @@ function displayMail(mail) {
             </td>
         `;
 
-  const attachmentLinks = Array.isArray(email.attachments) && email.attachments.length > 0
-    ? `<ul><li><a class="btn btn-primary rounded-pill" href="https://laysans-solutions-api.onrender.com${email.attachments}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i>  Download</a></li></ul>`
-    : '<ul><li>No attachments</li></ul>';
+ const attachmentLinks = Array.isArray(email.attachments) && email.attachments.length > 0
+  ? email.attachments.map((url, i) => {
+      return `<a class="btn btn-primary rounded-pill m-1" href="${url}" target="_blank" rel="noopener">
+                <i class="fa-solid fa-download"></i> Download ${i + 1}
+              </a>`;
+    }).join('')
+  : '<ul><li>No attachments</li></ul>';
 
 
 
