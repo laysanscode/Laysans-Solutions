@@ -1,3 +1,4 @@
+
 // Function to get CSRF token (if needed for Django)
 function getCookie(name) {
     let cookieValue = null;
@@ -17,7 +18,7 @@ function getCookie(name) {
 // Escape text to safely display as HTML
 function escapeHtml(text) {
     const div = document.createElement('div');
-    div.innerText = text;
+    div.textContent = text; // Safer than innerText
     return div.innerHTML;
 }
 
@@ -34,18 +35,28 @@ function createLoadingPlaceholders(count) {
             <td class="placeholder" style="width: 150px; background-color: #f0f0f0;">&nbsp;</td>
             <td class="placeholder" style="width: 50px; background-color: #f0f0f0;">&nbsp;</td>
             <td>
-                <button class="btn btn-primary btn-sm">View</button>
+                <button class="btn btn-primary btn-sm" disabled>View</button>
             </td>
             <td>
-                <button class="btn btn-success btn-sm">Reply</button>
+                <button class="btn btn-success btn-sm" disabled>Reply</button>
             </td>
         `;
         tableBody.appendChild(placeholderRow);
     }
 }
 
+// Download attachment function
+function downloadAttachment(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 // Fetch mail data
-async function fetchmail() {
+async function fetchMail() {
     createLoadingPlaceholders(6);
 
     try {
@@ -57,22 +68,22 @@ async function fetchmail() {
         }
 
         const mail = await response.json();
-        displaymail(mail);
+        displayMail(mail);
     } catch (error) {
         console.error('Error fetching mail:', error);
     }
 }
 
 // Display mail and attach modals/events
-function displaymail(mail) {
+function displayMail(mail) {
     const tableBody = document.getElementById('mailTableBody');
     tableBody.innerHTML = '';
 
-    // Remove old modals
+    // Remove any old modals
     document.querySelectorAll('.dynamic-modal').forEach(modal => modal.remove());
 
     if (!Array.isArray(mail) || mail.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="5">No mail found.</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="6">No mail found.</td></tr>`;
         return;
     }
 
@@ -84,9 +95,9 @@ function displaymail(mail) {
 
         const mailRow = document.createElement('tr');
         mailRow.innerHTML = `
-            <td>${email.subject}</td>
-            <td>${email["from"]}</td>
-            <td>${email.date}</td>
+            <td>${escapeHtml(email.subject)}</td>
+            <td>${escapeHtml(email["from"])}</td>
+            <td>${escapeHtml(email.date)}</td>
             <td>
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#${modalId}">View</button>
             </td>
@@ -95,19 +106,28 @@ function displaymail(mail) {
             </td>
         `;
 
-        // View modal
+  const attachmentLinks = Array.isArray(email.attachments) && email.attachments.length > 0
+    ? `<ul><li><a class="btn btn-primary rounded-pill" href="https://laysans-solutions-api.onrender.com${email.attachments}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i>  Download</a></li></ul>`
+    : '<ul><li>No attachments</li></ul>';
+
+
+
+
         const viewModal = `
             <div class="modal fade dynamic-modal" id="${modalId}" tabindex="-1" aria-labelledby="${modalId}Label" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="${modalId}Label">${email.subject}</h5>
+                            <h5 class="modal-title" id="${modalId}Label">${escapeHtml(email.subject)}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="email-body-container" style="background: #fff; padding: 20px; border-radius: 8px; max-height: 500px; overflow-y: auto;">
+                            <div class="email-body-container" style="background: #fff; padding: 20px; border-radius: 8px; max-height: 400px; overflow-y: auto;">
                                 ${escapeHtml(email.body)}
                             </div>
+                            <hr />
+                            <h6>Attachments</h6>
+                            <ul>${attachmentLinks}</ul>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -117,14 +137,13 @@ function displaymail(mail) {
             </div>
         `;
 
-        // Reply modal
         const replyModal = `
             <div class="modal fade dynamic-modal" id="${replyModalId}" tabindex="-1" aria-labelledby="${replyModalId}Label" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form id="${formId}">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="${replyModalId}Label">Reply to ${email["from"]}</h5>
+                                <h5 class="modal-title" id="${replyModalId}Label">Reply to ${escapeHtml(email["from"])}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -143,7 +162,7 @@ function displaymail(mail) {
         tableBody.appendChild(mailRow);
         document.body.insertAdjacentHTML('beforeend', viewModal + replyModal);
 
-        // Add event listener for reply form
+        // Attach event to reply form
         setTimeout(() => {
             const form = document.getElementById(formId);
             const textarea = document.getElementById(textareaId);
@@ -206,5 +225,5 @@ async function sendReply(event, to, subject, originalBody, textareaElement) {
 
 // On page load
 document.addEventListener('DOMContentLoaded', () => {
-    fetchmail();
+    fetchMail();
 });
