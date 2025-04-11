@@ -1,4 +1,3 @@
-
 // Function to get CSRF token (if needed for Django)
 function getCookie(name) {
     let cookieValue = null;
@@ -34,12 +33,8 @@ function createLoadingPlaceholders(count) {
             <td class="placeholder" style="width: 100px; background-color: #f0f0f0;">&nbsp;</td>
             <td class="placeholder" style="width: 150px; background-color: #f0f0f0;">&nbsp;</td>
             <td class="placeholder" style="width: 50px; background-color: #f0f0f0;">&nbsp;</td>
-            <td>
-                <button class="btn btn-primary btn-sm" disabled>View</button>
-            </td>
-            <td>
-                <button class="btn btn-success btn-sm" disabled>Reply</button>
-            </td>
+            <td><button class="btn btn-primary btn-sm" disabled>View</button></td>
+            <td><button class="btn btn-success btn-sm" disabled>Reply</button></td>
         `;
         tableBody.appendChild(placeholderRow);
     }
@@ -55,9 +50,12 @@ function downloadAttachment(url, filename) {
     document.body.removeChild(link);
 }
 
-// Fetch mail data
+let currentPage = 1;
+let rowsPerPage = 15;
+let mailData = [];
+
 async function fetchMail() {
-    createLoadingPlaceholders(6);
+    createLoadingPlaceholders(rowsPerPage);
 
     try {
         const response = await fetch('https://laysans-solutions-api.onrender.com/mailinbox/');
@@ -67,19 +65,71 @@ async function fetchMail() {
             throw new Error('Network response was not ok');
         }
 
-        const mail = await response.json();
-        displayMail(mail);
+        mailData = await response.json();
+        displayPage(currentPage);
+        renderPagination();
     } catch (error) {
         console.error('Error fetching mail:', error);
     }
 }
 
-// Display mail and attach modals/events
+function displayPage(page) {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    displayMail(mailData.slice(start, end));
+}
+
+function renderPagination() {
+    const totalPages = Math.ceil(mailData.length / rowsPerPage);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    // Previous button
+    const prevItem = document.createElement('li');
+    prevItem.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+    prevItem.innerHTML = `<a class="page-link btn btn-light" href="#">Previous</a>`;
+    prevItem.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) {
+            currentPage--;
+            displayPage(currentPage);
+            renderPagination();
+        }
+    });
+    pagination.appendChild(prevItem);
+
+    // Page numbers
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement('li');
+        pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        pageItem.innerHTML = `<a class="page-link btn btn-primary" href="#">${i}</a>`;
+        pageItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentPage = i;
+            displayPage(currentPage);
+            renderPagination();
+        });
+        pagination.appendChild(pageItem);
+    }
+
+    // Next button
+    const nextItem = document.createElement('li');
+    nextItem.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+    nextItem.innerHTML = `<a class="page-link btn btn-light" href="#">Next</a>`;
+    nextItem.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayPage(currentPage);
+            renderPagination();
+        }
+    });
+    pagination.appendChild(nextItem);
+}
+
 function displayMail(mail) {
     const tableBody = document.getElementById('mailTableBody');
     tableBody.innerHTML = '';
-
-    // Remove any old modals
     document.querySelectorAll('.dynamic-modal').forEach(modal => modal.remove());
 
     if (!Array.isArray(mail) || mail.length === 0) {
@@ -106,16 +156,13 @@ function displayMail(mail) {
             </td>
         `;
 
- const attachmentLinks = Array.isArray(email.attachments) && email.attachments.length > 0
-  ? email.attachments.map((url, i) => {
-      return `<a class="btn btn-primary rounded-pill m-1" href="${url}" target="_blank" rel="noopener">
-                <i class="fa-solid fa-download"></i> Download ${i + 1}
-              </a>`;
-    }).join('')
-  : '<ul><li>No attachments</li></ul>';
-
-
-
+        const attachmentLinks = Array.isArray(email.attachments) && email.attachments.length > 0
+            ? email.attachments.map((url, i) => {
+                return `<a class="btn btn-primary rounded-pill m-1" href="${url}" target="_blank" rel="noopener">
+                            <i class="fa-solid fa-download"></i> Download ${i + 1}
+                        </a>`;
+            }).join('')
+            : '<ul><li>No attachments</li></ul>';
 
         const viewModal = `
             <div class="modal fade dynamic-modal" id="${modalId}" tabindex="-1" aria-labelledby="${modalId}Label" aria-hidden="true">
@@ -131,15 +178,14 @@ function displayMail(mail) {
                             </div>
                             <hr />
                             <h6>Attachments</h6>
-                            <ul>${attachmentLinks}</ul>
+                            <div>${attachmentLinks}</div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            </div>`;
 
         const replyModal = `
             <div class="modal fade dynamic-modal" id="${replyModalId}" tabindex="-1" aria-labelledby="${replyModalId}Label" aria-hidden="true">
@@ -160,13 +206,11 @@ function displayMail(mail) {
                         </form>
                     </div>
                 </div>
-            </div>
-        `;
+            </div>`;
 
         tableBody.appendChild(mailRow);
         document.body.insertAdjacentHTML('beforeend', viewModal + replyModal);
 
-        // Attach event to reply form
         setTimeout(() => {
             const form = document.getElementById(formId);
             const textarea = document.getElementById(textareaId);
@@ -179,10 +223,8 @@ function displayMail(mail) {
     });
 }
 
-// Handle reply
 async function sendReply(event, to, subject, originalBody, textareaElement) {
     event.preventDefault();
-
     const replyText = textareaElement.value.trim();
     if (!replyText) return;
 
@@ -195,7 +237,6 @@ async function sendReply(event, to, subject, originalBody, textareaElement) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 'X-CSRFToken': getCookie('csrftoken') // Uncomment if needed
             },
             body: JSON.stringify({
                 to: to,
@@ -210,7 +251,6 @@ async function sendReply(event, to, subject, originalBody, textareaElement) {
         if (response.ok) {
             alert('Reply sent successfully!');
             textareaElement.value = '';
-
             const modal = textareaElement.closest('.modal');
             if (modal) {
                 const closeButton = modal.querySelector('.btn-close');
@@ -227,7 +267,6 @@ async function sendReply(event, to, subject, originalBody, textareaElement) {
     }
 }
 
-// On page load
 document.addEventListener('DOMContentLoaded', () => {
     fetchMail();
 });
