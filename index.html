@@ -364,8 +364,15 @@ By continuously evolving and embracing new technologies, we empower our clients 
     };
     
 </script>   
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GLJ5MXEQLR"></script>
-<script src="./Static/Js/google.js"></script> 
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GLJ5MXEQLR');
+</script>
 <script src="./Static/Js/chat.js"></script>
 </body>
 
