@@ -31,11 +31,10 @@ body h2{
   font-optical-sizing: auto;
   font-weight: 800;
   font-style: normal;
-  color: #6250a6; 
-  background-image: linear-gradient(45deg, #6250a6 , #28a3ca 50%, #3c1dd0 100%); 
-  background-clip: text; 
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent;
+  background: #B7DEED;
+background: linear-gradient(to right, #B7DEED 0%, #71CEEF 25%, #21B4E2 75%, #B7DEED 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 @media only screen and (min-width: 992px) {
     .navbar{
@@ -145,19 +144,17 @@ body h2{
     font-weight: 500;
   }
   .navbar-light .navbar-nav .nav-link:hover{
-    color: #6250a6; 
-    background-image: linear-gradient(45deg, #6250a6 , #28a3ca 50%, #3c1dd0 100%); 
-    background-clip: text; 
-    -webkit-background-clip: text; 
+    background: #B7DEED;
+    background: linear-gradient(to right, #B7DEED 0%, #71CEEF 25%, #21B4E2 75%, #B7DEED 100%);
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: 18px;
 }
 .navbar-light .navbar-nav .nav-link.active{
-  color: #6250a6; 
-  background-image: linear-gradient(45deg, #6250a6 , #28a3ca 50%, #3c1dd0 100%); 
-  background-clip: text; 
-  -webkit-background-clip: text; 
-  -webkit-text-fill-color: transparent;
+  background: #B7DEED;
+background: linear-gradient(to right, #B7DEED 0%, #71CEEF 25%, #21B4E2 75%, #B7DEED 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
     font-size: 18px;
     
 }
