@@ -24,6 +24,7 @@ body{
 .navbar.scrolled {
   background-image: linear-gradient(to right, #434343 0%, black 100%);
  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 body h2{
   font-family: "Orbitron", sans-serif;
