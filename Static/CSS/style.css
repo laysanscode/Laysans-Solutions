@@ -120,7 +120,7 @@ background: linear-gradient(to right, #B7DEED 0%, #71CEEF 25%, #21B4E2 75%, #B7D
         font-size: 1rem; /* Smaller size for mobile */
     }
     .navbar-brand{
-      font-size: 25px;
+      font-size: 22px;
     }
     .phone-container {
       display: flex;
