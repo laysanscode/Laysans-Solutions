@@ -120,8 +120,9 @@ background: linear-gradient(to right, #B7DEED 0%, #71CEEF 25%, #21B4E2 75%, #B7D
         font-size: 1rem; /* Smaller size for mobile */
     }
     .navbar-brand{
-      font-size: 22px;
+      font-size: 20px;
     }
+
     .phone-container {
       display: flex;
       flex-direction: column; /* Stack the phone numbers vertically */
